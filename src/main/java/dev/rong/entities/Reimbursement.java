@@ -4,13 +4,15 @@ public class Reimbursement {
 	private int rid;
 	private double amount;
 	private String description;
+	private String status;
 	private int eid;
 	private int mid;
 	
-	public Reimbursement(double amount, String description, int eid) {
+	public Reimbursement(double amount, String description, String status, int eid) {
 		super();
 		this.amount = amount;
 		this.description = description;
+		this.status = status;
 		this.eid = eid;
 	}
 
@@ -52,6 +54,16 @@ public class Reimbursement {
 
 	public void setMid(int mid) {
 		this.mid = mid;
+	}
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override
