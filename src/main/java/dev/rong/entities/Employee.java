@@ -15,6 +15,10 @@ public class Employee {
 		this.name = name;
 	}
 	
+	public Employee() {
+		super();
+	}
+
 	public int getEid() {
 		return eid;
 	}

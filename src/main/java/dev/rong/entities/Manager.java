@@ -13,6 +13,10 @@ public class Manager {
 		this.name = name;
 	}
 	
+	public Manager() {
+		super();
+	}
+
 	public int getMid() {
 		return mid;
 	}
