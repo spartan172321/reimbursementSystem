@@ -8,6 +8,7 @@ public class Reimbursement {
 	private int eid;
 	private int mid;
 	
+	
 	public Reimbursement(double amount, String description, String status, int eid) {
 		super();
 		this.amount = amount;
@@ -15,6 +16,12 @@ public class Reimbursement {
 		this.status = status;
 		this.eid = eid;
 	}
+	
+	public Reimbursement() {
+		super();
+	}
+
+
 
 	public int getRid() {
 		return rid;
