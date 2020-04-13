@@ -8,6 +8,8 @@ public interface ReimbursementDAO {
 	
 	Reimbursement createReimbursement(Reimbursement r);
 	
+	Reimbursement getReimbursementByRid(int rid);
+	
 	List<Reimbursement> getReimbursementsByEid(int eid);
 	
 	List<Reimbursement> getReimbursementsByMid(int mid);

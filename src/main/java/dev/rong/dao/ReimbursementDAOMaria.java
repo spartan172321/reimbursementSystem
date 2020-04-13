@@ -36,6 +36,39 @@ public class ReimbursementDAOMaria implements ReimbursementDAO{
 		}
 		
 	}
+	
+	
+	public Reimbursement getReimbursementByRid(int rid) {
+		try(Connection conn = ConnectionUtil.createConnection()){
+			String sql = "SELECT*FROM reimbursementdb.REIMBURSEMENT WHERE REIMBURSEMENT_ID=?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, rid);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			Reimbursement r = new Reimbursement();
+			r.setRid(rs.getInt("REIMBURSEMENT_ID"));
+			r.setAmount(rs.getDouble("AMOUNT"));
+			r.setDescription(rs.getString("DESCRIPTION"));
+			r.setStatus(rs.getString("STATUS"));
+			r.setMid(rs.getInt("MANAGER_ID"));
+			r.setEid(rs.getInt("EMPLOYEE_ID"));
+				
+			return r;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	
+	
+	
+	
+	
 
 	public List<Reimbursement> getReimbursementsByEid(int eid) {
 		try(Connection conn = ConnectionUtil.createConnection()){
