@@ -8,22 +8,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+
 public class ConnectionUtil {
 	public static Connection createConnection() {
 		
 		try {
 			//create a properties object to store information
 			Properties props = new Properties();
-			
-			// use file io to read in a file
-			FileInputStream in = new FileInputStream("src/main/resources/connection.properties");
-			// populate the properties object by loading in the fileinputstream 
+			Class.forName("org.mariadb.jdbc.Driver");
+			FileInputStream in = new FileInputStream(ConnectionUtil.class.getClassLoader().getResource("connection.properties").getFile());
 			props.load(in);
-			
 			String details = props.getProperty("condetails");
-			
 			Connection conn = DriverManager.getConnection(details);
 			return conn;
+			
 		} catch (SQLException e) {			
 			e.printStackTrace();
 			return null;
@@ -31,6 +29,10 @@ public class ConnectionUtil {
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		catch(ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}

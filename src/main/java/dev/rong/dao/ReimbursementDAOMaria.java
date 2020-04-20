@@ -65,10 +65,6 @@ public class ReimbursementDAOMaria implements ReimbursementDAO{
 	}
 	
 	
-	
-	
-	
-	
 
 	public List<Reimbursement> getReimbursementsByEid(int eid) {
 		try(Connection conn = ConnectionUtil.createConnection()){
@@ -182,9 +178,7 @@ public class ReimbursementDAOMaria implements ReimbursementDAO{
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, r.getStatus());
 			ps.setInt(2, r.getRid());
-			
 			boolean success = ps.execute();
-			
 			return r;
 			
 		}catch(SQLException e) {

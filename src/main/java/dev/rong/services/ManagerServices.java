@@ -2,11 +2,12 @@ package dev.rong.services;
 
 import java.util.List;
 
+import dev.rong.entities.Manager;
 import dev.rong.entities.Reimbursement;
 
 public interface ManagerServices {
 	
-	boolean managerLogin(String username, String password);
+	Manager managerLogin(String username, String password);
 	
 	List<Reimbursement> viewAllReimbursements();
 	
@@ -14,14 +15,14 @@ public interface ManagerServices {
 	
 	Reimbursement updateReimbursementStatus(Reimbursement r);
 	
-	List<Integer> reimbursementsApprovedPerManager();
-	List<Integer> reimbursementsDeniedPerManager();
-	List<Double> totalAmountApprovedPerManager();
-	
-	List<Integer> reimbursementsPerEmployee();
-	List<Double> totalAmountApprovedPerEmployee();
-	
-	int AveReimbursementAmount();
+//	List<Integer> reimbursementsApprovedPerManager();
+//	List<Integer> reimbursementsDeniedPerManager();
+//	List<Double> totalAmountApprovedPerManager();
+//	
+//	List<Integer> reimbursementsPerEmployee();
+//	List<Double> totalAmountApprovedPerEmployee();
+//	
+//	int AveReimbursementAmount();
 	
 	
 }
