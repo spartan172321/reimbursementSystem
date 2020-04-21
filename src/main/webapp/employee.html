@@ -19,22 +19,60 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Description</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Approve/Disapprove</th>
                 </tr>
             </thead>
             <tbody id="reimbursementTable">
             </tbody>
         </table>
+        <div>
+            <h4>Amount</h4>
+            <input id="amountInput">
+            <h4>Description</h4>
+            <input id="descriptionInput">
+            <button id="submitBtn" onclick="addReimbursement()">Submit</button>
+        </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
     <script>
         async function showReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursementByEid`);
+
+            // let httpResponse = await fetch("http://localhost:8075/ReimbursementProject/home/viewReimbursementByEid");
+            let reimbursements = await httpResponse.json();
+            console.log(reimbursements)
+
             tableBody = document.getElementById("reimbursementTable");
-            reimbursementNode = document.createElement("tr");
-            reimbursementNode.innerHTML = `<td>Hello</td><td>Hello</td><td>Hello</td><td>Hello</td><td>Hello</td>`;
-            tableBody.appendChild(reimbursementNode);
+            tableBody.innerHTML = "";
+            for(r of reimbursements){
+                reimbursementNode = document.createElement("tr");
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
+                tableBody.appendChild(reimbursementNode);
+            }
+        }
+
+        async function addReimbursement(){
+            let reimbursement ={
+                rid:0,
+                status:"Pending",
+                mid:0,
+                eid:0
+            }
+            reimbursement.amount = document.getElementById("amountInput").value;
+            reimbursement.description = document.getElementById("descriptionInput").value;
+
+            settings = {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify(reimbursement)
+            }
+
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/addReimbursement`,settings);
+            // let httpResponse = await fetch("http://localhost:8075/ReimbursementProject/home/addReimbursement",settings);
+            showReimbursements();
         }
         showReimbursements();
     </script>

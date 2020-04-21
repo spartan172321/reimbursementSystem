@@ -31,8 +31,7 @@ public class ConnectionUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}
-		catch(ClassNotFoundException e) {
+		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}

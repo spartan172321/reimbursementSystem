@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
 			if(m!=null) {
 				int mid = m.getMid();
 				sess.setAttribute("mid", mid);
+				response.sendRedirect("http://localhost:8075/ReimbursementProject/manager.html");
 				System.out.println(sess.getAttribute("mid")+" "+sess.getAttribute("eid"));
 			}
 			
@@ -49,6 +50,7 @@ public class LoginServlet extends HttpServlet {
 			if(e!=null) {
 				int eid = e.getEid();
 				sess.setAttribute("eid", eid);
+				response.sendRedirect("http://localhost:8075/ReimbursementProject/employee.html");
 			}
 			System.out.println(sess.getAttribute("mid")+" "+sess.getAttribute("eid"));
 		}

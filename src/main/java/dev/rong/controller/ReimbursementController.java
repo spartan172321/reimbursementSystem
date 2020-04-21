@@ -46,19 +46,22 @@ public class ReimbursementController {
 	}
 	
 	public void addReimbursement(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		HttpSession sess = request.getSession();
 		String body = request.getReader().lines().reduce("", (accumulator,actual) ->accumulator+actual);
-		System.out.println(body);
 		Gson gson = new Gson();
 		Reimbursement r = gson.fromJson(body, Reimbursement.class);
+		r.setEid((Integer)(sess.getAttribute("eid")));
 		eserv.createReimbursement(r);
 		response.getWriter().append("Success!!!");
 	}
 
 	public void updateReimbursements(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		HttpSession sess = request.getSession();
 		String body = request.getReader().lines().reduce("", (accumulator,actual) ->accumulator+actual);
-		System.out.println(body);
 		Gson gson = new Gson();
 		Reimbursement r = gson.fromJson(body, Reimbursement.class);
+		r.setMid((Integer)(sess.getAttribute("mid")));
+		System.out.println(r);
 		mserv.updateReimbursementStatus(r);
 		response.getWriter().append("Successful update!!!");
 	}

@@ -174,10 +174,11 @@ public class ReimbursementDAOMaria implements ReimbursementDAO{
 	@Override
 	public Reimbursement updateReimbursementStatus(Reimbursement r) {
 		try(Connection conn = ConnectionUtil.createConnection()){
-			String sql = "UPDATE reimbursementdb.REIMBURSEMENT SET STATUS=? WHERE REIMBURSEMENT_ID=?";
+			String sql = "UPDATE reimbursementdb.REIMBURSEMENT SET STATUS=?, MANAGER_ID=? WHERE REIMBURSEMENT_ID=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, r.getStatus());
-			ps.setInt(2, r.getRid());
+			ps.setInt(2, r.getMid());
+			ps.setInt(3, r.getRid());
 			boolean success = ps.execute();
 			return r;
 			
