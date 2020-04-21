@@ -32,11 +32,21 @@ public class ManagerServicesImpl implements ManagerServices{
 	public Reimbursement viewReimbursementById(int rid) {
 		return rdao.getReimbursementByRid(rid);
 	}
+	@Override
+	public List<Reimbursement> viewPendingReimbursements() {
+		return rdao.getPendingReimbursements();
+	}
+	@Override
+	public List<Reimbursement> viewNonPendingReimbursements() {
+		return rdao.getNonPendingReimbursements();
+	}
 
 	@Override
 	public Reimbursement updateReimbursementStatus(Reimbursement r) {
 		return rdao.updateReimbursementStatus(r);
 	}
+	
+	
 
 //	@Override
 //	public List<Integer> reimbursementsApprovedPerManager() {

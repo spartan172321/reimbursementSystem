@@ -35,6 +35,12 @@ public class HomeServlet extends HttpServlet {
 		case "/ReimbursementProject/home/viewReimbursementByEid":
 			rcontrol.getReimbursementsByEid(request, response);
 			break;
+		case "/ReimbursementProject/home/viewPendingReimbursements":
+			rcontrol.getPendingReimbursements(request, response);
+			break;
+		case "/ReimbursementProject/home/viewNonPendingReimbursements":
+			rcontrol.getNonPendingReimbursements(request, response);
+			break;
 		case "/ReimbursementProject/home/addReimbursement":
 			System.out.println("it works here");
 			rcontrol.addReimbursement(request,response);

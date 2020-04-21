@@ -33,14 +33,12 @@ public class LoginServlet extends HttpServlet {
 		if(uri.equals("/ReimbursementProject/login/manager")) {
 			String user = request.getParameter("username");
 			String pass = request.getParameter("password");
-			System.out.println("here");
 			Manager m = mserv.managerLogin(user, pass);
-			System.out.println(m);
+			
 			if(m!=null) {
 				int mid = m.getMid();
 				sess.setAttribute("mid", mid);
 				response.sendRedirect("http://localhost:8075/ReimbursementProject/manager.html");
-				System.out.println(sess.getAttribute("mid")+" "+sess.getAttribute("eid"));
 			}
 			
 		}else if(uri.equals("/ReimbursementProject/login/employee")) {
@@ -52,7 +50,6 @@ public class LoginServlet extends HttpServlet {
 				sess.setAttribute("eid", eid);
 				response.sendRedirect("http://localhost:8075/ReimbursementProject/employee.html");
 			}
-			System.out.println(sess.getAttribute("mid")+" "+sess.getAttribute("eid"));
 		}
 		
 	}

@@ -69,7 +69,10 @@
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/login/manager?username=${username}&password=${password}`);
             console.log(httpResponse.url);
-            window.location.href = httpResponse.url;
+            if(httpResponse.url == "http://localhost:8075/ReimbursementProject/manager.html"){
+                window.location.href = `http://${parsedUrl.host}/ReimbursementProject/manager.html`;
+            }
+            
         }
 
         async function employeeLogin(){
@@ -79,7 +82,9 @@
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/login/employee?username=${username}&password=${password}`);
             console.log(httpResponse.url);
-            window.location.href = httpResponse.url;
+            if(httpResponse.url == "http://localhost:8075/ReimbursementProject/employee.html"){
+                window.location.href = `http://${parsedUrl.host}/ReimbursementProject/employee.html`;
+            }
         }
 
     </script>

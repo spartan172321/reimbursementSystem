@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>Manager</title>
     </head>
     <body>
+        <button onclick="showPendingReimbursements()">Pending Reimbursements</button>
+        <button onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
         <h2 style="text-align: center;">All Reimbursements</h2>
         <table class="table">
             <thead>
@@ -34,7 +33,6 @@
         async function showReimbursements(){
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursements`);
-            // let httpResponse = await fetch("http://localhost:8075/ReimbursementProject/home/viewReimbursements");
             let reimbursements = await httpResponse.json();
             
             tableBody = document.getElementById("reimbursementTable");
@@ -57,17 +55,49 @@
                     reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
                     tableBody.appendChild(reimbursementNode);
                 }
-                
             }
         }
 
+        async function showPendingReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewPendingReimbursements`);
+            let reimbursements = await httpResponse.json();
+            
+            tableBody = document.getElementById("reimbursementTable");
+            tableBody.innerHTML = "";
 
+            for(r of reimbursements){
+                reimbursementNode = document.createElement("tr");
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
+                <td><button id="${r.rid}approveBtn">Approve</button><button id="${r.rid}denyBtn">Deny</button></td>`;
+                tableBody.appendChild(reimbursementNode);
+                $(`#${r.rid}approveBtn`).data(r);
+                let a = $(`#${r.rid}approveBtn`).data();
+                $(`#${r.rid}denyBtn`).data(r);
+                let d = $(`#${r.rid}denyBtn`).data();
+                document.getElementById(r.rid+"approveBtn").addEventListener("click",function(){approve(a)});
+                document.getElementById(r.rid+"denyBtn").addEventListener("click",function(){deny(d)});
+            }
+        }
+
+        async function showNonPendingReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewNonPendingReimbursements`);
+            let reimbursements = await httpResponse.json();
+            
+            tableBody = document.getElementById("reimbursementTable");
+            tableBody.innerHTML = "";
+            for(r of reimbursements){
+                reimbursementNode = document.createElement("tr");
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
+                tableBody.appendChild(reimbursementNode);
+            }
+
+        }
 
         async function approve(e){
             let reimbursement = e;
             reimbursement.status = "Approved";
-            console.log(reimbursement)
-
             settings = {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
@@ -75,8 +105,6 @@
             }
 
             let parsedUrl = new URL(window.location.href);
-            // let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursements`,settings);
-
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
             showReimbursements();
         } 
@@ -84,8 +112,6 @@
         async function deny(e){
             let reimbursement = e;
             reimbursement.status = "Denied";
-            console.log(reimbursement)
-
 
             settings = {
                 method:'POST',
@@ -94,7 +120,6 @@
             }
 
             let parsedUrl = new URL(window.location.href);
-            // let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursements`,settings);
 
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
             showReimbursements();

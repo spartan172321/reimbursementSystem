@@ -152,6 +152,58 @@ public class ReimbursementDAOMaria implements ReimbursementDAO{
 			return null;
 		}
 	}
+	
+	public List<Reimbursement> getPendingReimbursements() {
+		try(Connection conn = ConnectionUtil.createConnection()){
+			String sql = "SELECT*FROM reimbursementdb.REIMBURSEMENT WHERE STATUS='Pending'";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			List<Reimbursement> allReimbursements = new ArrayList<Reimbursement>();
+			while(rs.next()) {
+				Reimbursement r = new Reimbursement();
+				r.setRid(rs.getInt("REIMBURSEMENT_ID"));
+				r.setAmount(rs.getDouble("AMOUNT"));
+				r.setDescription(rs.getString("DESCRIPTION"));
+				r.setStatus(rs.getString("STATUS"));
+				r.setMid(rs.getInt("MANAGER_ID"));
+				r.setEid(rs.getInt("EMPLOYEE_ID"));
+				allReimbursements.add(r);
+			}
+			
+			return allReimbursements;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<Reimbursement> getNonPendingReimbursements() {
+		try(Connection conn = ConnectionUtil.createConnection()){
+			String sql = "SELECT*FROM reimbursementdb.REIMBURSEMENT WHERE STATUS='Approved' OR STATUS='Denied'";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			List<Reimbursement> allReimbursements = new ArrayList<Reimbursement>();
+			while(rs.next()) {
+				Reimbursement r = new Reimbursement();
+				r.setRid(rs.getInt("REIMBURSEMENT_ID"));
+				r.setAmount(rs.getDouble("AMOUNT"));
+				r.setDescription(rs.getString("DESCRIPTION"));
+				r.setStatus(rs.getString("STATUS"));
+				r.setMid(rs.getInt("MANAGER_ID"));
+				r.setEid(rs.getInt("EMPLOYEE_ID"));
+				allReimbursements.add(r);
+			}
+			
+			return allReimbursements;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public Reimbursement updateReimbursementEntry(Reimbursement r) {
 		try(Connection conn = ConnectionUtil.createConnection()){

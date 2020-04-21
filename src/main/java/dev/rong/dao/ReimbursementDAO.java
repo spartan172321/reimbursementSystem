@@ -16,6 +16,10 @@ public interface ReimbursementDAO {
 	
 	List<Reimbursement> getAllReimbursements();
 	
+	List<Reimbursement> getPendingReimbursements();
+	
+	List<Reimbursement> getNonPendingReimbursements();
+	
 	Reimbursement updateReimbursementEntry(Reimbursement r);
 	
 	Reimbursement updateReimbursementStatus(Reimbursement r);

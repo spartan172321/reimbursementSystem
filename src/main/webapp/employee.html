@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>Employee</title>
     </head>
     <body>
+        <h2>Add New Reimbursements</h2>
+        <div>
+            <h4>Amount</h4>
+            <input id="amountInput">
+            <h4>Description</h4>
+            <input id="descriptionInput">
+            <button id="submitBtn" onclick="addReimbursement()">Submit</button>
+        </div>
         <h2 style="text-align: center;">All Your Reimbursements</h2>
         <table class="table">
             <thead>
@@ -24,13 +29,6 @@
             <tbody id="reimbursementTable">
             </tbody>
         </table>
-        <div>
-            <h4>Amount</h4>
-            <input id="amountInput">
-            <h4>Description</h4>
-            <input id="descriptionInput">
-            <button id="submitBtn" onclick="addReimbursement()">Submit</button>
-        </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -39,10 +37,7 @@
         async function showReimbursements(){
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursementByEid`);
-
-            // let httpResponse = await fetch("http://localhost:8075/ReimbursementProject/home/viewReimbursementByEid");
             let reimbursements = await httpResponse.json();
-            console.log(reimbursements)
 
             tableBody = document.getElementById("reimbursementTable");
             tableBody.innerHTML = "";
@@ -71,7 +66,6 @@
 
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/addReimbursement`,settings);
-            // let httpResponse = await fetch("http://localhost:8075/ReimbursementProject/home/addReimbursement",settings);
             showReimbursements();
         }
         showReimbursements();

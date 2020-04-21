@@ -13,6 +13,10 @@ public interface ManagerServices {
 	
 	Reimbursement viewReimbursementById(int rid);
 	
+	List<Reimbursement> viewPendingReimbursements();
+	
+	List<Reimbursement> viewNonPendingReimbursements();
+	
 	Reimbursement updateReimbursementStatus(Reimbursement r);
 	
 //	List<Integer> reimbursementsApprovedPerManager();

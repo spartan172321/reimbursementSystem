@@ -25,7 +25,6 @@ public class ReimbursementController {
 	
 	public void getAllReimbursements(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		List<Reimbursement> rList = mserv.viewAllReimbursements();
-		System.out.println(rList);
 		Gson gson = new Gson();
 		PrintWriter pw = response.getWriter();
 		String json = gson.toJson(rList);
@@ -33,11 +32,27 @@ public class ReimbursementController {
 		
 	}
 	
+	public void getPendingReimbursements(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		List<Reimbursement> rList = mserv.viewPendingReimbursements();
+		Gson gson = new Gson();
+		PrintWriter pw = response.getWriter();
+		String json = gson.toJson(rList);
+		pw.append(json);
+	}
+	
+	public void getNonPendingReimbursements(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		List<Reimbursement> rList = mserv.viewNonPendingReimbursements();
+		System.out.println(rList);
+		Gson gson = new Gson();
+		PrintWriter pw = response.getWriter();
+		String json = gson.toJson(rList);
+		pw.append(json);
+	}
+	
 	public void getReimbursementsByEid(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		HttpSession sess = request.getSession();
 		int eid = (Integer) sess.getAttribute("eid");
 		List<Reimbursement> rList = eserv.viewAllEmployeeReimbursements(eid);
-		System.out.println(rList);
 		Gson gson = new Gson();
 		PrintWriter pw = response.getWriter();
 		String json = gson.toJson(rList);
