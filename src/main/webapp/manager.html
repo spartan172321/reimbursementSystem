@@ -5,17 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="mystyle.css">
         <title>Manager</title>
     </head>
     <body>
 
         <h2 style="text-align: center;">All Reimbursements</h2>
         <br>
-        <div class="container">
+        <div class="container" style="text-align:center">
             <button type="button" class="btn btn-secondary" onclick="showPendingReimbursements()">Pending Reimbursements</button>
             <button type="button" class="btn btn-secondary" onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
         </div>
-        <table class="table">
+        <br>
+        <table class="table table-sm table-dark">
             <thead>
                 <tr>
                     <th scope="col">Reimbursement ID</th>
@@ -57,7 +59,7 @@
                     document.getElementById(r.rid+"denyBtn").addEventListener("click",function(){deny(d)});
                 }else{
                     reimbursementNode = document.createElement("tr");
-                    reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
+                    reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td><td></td>`;
                     tableBody.appendChild(reimbursementNode);
                 }
             }
@@ -95,7 +97,7 @@
             tableBody.innerHTML = "";
             for(r of reimbursements){
                 reimbursementNode = document.createElement("tr");
-                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td><td></td>`;
                 tableBody.appendChild(reimbursementNode);
             }
 
@@ -128,7 +130,6 @@
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
             showPendingReimbursements();
         } 
-
         showReimbursements();
     </script>
 </html>
