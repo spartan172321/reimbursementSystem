@@ -1,11 +1,15 @@
 package dev.rong.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import dev.rong.entities.Employee;
 import dev.rong.entities.Manager;
@@ -38,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 			if(m!=null) {
 				int mid = m.getMid();
 				sess.setAttribute("mid", mid);
-				response.sendRedirect("http://localhost:8075/ReimbursementProject/manager.html");
+				response.getWriter().append("true");
 			}
 			
 		}else if(uri.equals("/ReimbursementProject/login/employee")) {
@@ -48,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 			if(e!=null) {
 				int eid = e.getEid();
 				sess.setAttribute("eid", eid);
-				response.sendRedirect("http://localhost:8075/ReimbursementProject/employee.html");
+				response.getWriter().append("true");
 			}
 		}
 		

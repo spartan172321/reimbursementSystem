@@ -68,9 +68,11 @@
             
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/login/manager?username=${username}&password=${password}`);
-            console.log(httpResponse.url);
-            if(httpResponse.url == "http://localhost:8075/ReimbursementProject/manager.html"){
-                window.location.href = `http://${parsedUrl.host}/ReimbursementProject/manager.html`;
+            let body = await httpResponse.json();
+            let x = JSON.stringify(body)
+            console.log(x)
+            if(x == "true"){
+                window.location.replace(`http://${parsedUrl.host}/ReimbursementProject/manager.html`);
             }
             
         }
@@ -81,9 +83,11 @@
             
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/login/employee?username=${username}&password=${password}`);
-            console.log(httpResponse.url);
-            if(httpResponse.url == "http://localhost:8075/ReimbursementProject/employee.html"){
-                window.location.href = `http://${parsedUrl.host}/ReimbursementProject/employee.html`;
+            let body = await httpResponse.json();
+            let x = JSON.stringify(body)
+            console.log(x)
+            if(x == "true"){
+                window.location.replace(`http://${parsedUrl.host}/ReimbursementProject/employee.html`);
             }
         }
 
