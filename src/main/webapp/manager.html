@@ -8,9 +8,13 @@
         <title>Manager</title>
     </head>
     <body>
-        <button onclick="showPendingReimbursements()">Pending Reimbursements</button>
-        <button onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
+
         <h2 style="text-align: center;">All Reimbursements</h2>
+        <br>
+        <div class="container">
+            <button type="button" class="btn btn-secondary" onclick="showPendingReimbursements()">Pending Reimbursements</button>
+            <button type="button" class="btn btn-secondary" onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -41,8 +45,9 @@
             for(r of reimbursements){
                 if(r.status==="Pending"){
                     reimbursementNode = document.createElement("tr");
-                    reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
-                    <td><button id="${r.rid}approveBtn">Approve</button><button id="${r.rid}denyBtn">Deny</button></td>`;
+                    reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
+                    <td><button type="button" class="btn btn-success" id="${r.rid}approveBtn">Approve</button>
+                    <button type="button" class="btn btn-danger" id="${r.rid}denyBtn">Deny</button></td>`;
                     tableBody.appendChild(reimbursementNode);
                     $(`#${r.rid}approveBtn`).data(r);
                     let a = $(`#${r.rid}approveBtn`).data();
@@ -68,8 +73,9 @@
 
             for(r of reimbursements){
                 reimbursementNode = document.createElement("tr");
-                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
-                <td><button id="${r.rid}approveBtn">Approve</button><button id="${r.rid}denyBtn">Deny</button></td>`;
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
+                <td><button id="${r.rid}approveBtn" type="button" class="btn btn-success">Approve</button>
+                <button id="${r.rid}denyBtn" type="button" class="btn btn-danger">Deny</button></td>`;
                 tableBody.appendChild(reimbursementNode);
                 $(`#${r.rid}approveBtn`).data(r);
                 let a = $(`#${r.rid}approveBtn`).data();
@@ -89,7 +95,7 @@
             tableBody.innerHTML = "";
             for(r of reimbursements){
                 reimbursementNode = document.createElement("tr");
-                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
                 tableBody.appendChild(reimbursementNode);
             }
 
@@ -106,13 +112,12 @@
 
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
-            showReimbursements();
+            showPendingReimbursements();
         } 
 
         async function deny(e){
             let reimbursement = e;
             reimbursement.status = "Denied";
-
             settings = {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
@@ -120,9 +125,8 @@
             }
 
             let parsedUrl = new URL(window.location.href);
-
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
-            showReimbursements();
+            showPendingReimbursements();
         } 
 
         showReimbursements();
