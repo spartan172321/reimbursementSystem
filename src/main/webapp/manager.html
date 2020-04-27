@@ -9,7 +9,7 @@
         <title>Manager</title>
     </head>
     <body>
-
+        <p style="color: red; text-align: right;" onclick="logout()">Logout</p>
         <h2 style="text-align: center;">All Reimbursements</h2>
         <br>
         <div class="container" style="text-align:center">
@@ -130,6 +130,12 @@
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
             showPendingReimbursements();
         } 
+
+        function logout(){
+            let parsedUrl = new URL(window.location.href);
+            window.location.replace(`http://${parsedUrl.host}/ReimbursementProject/`);
+        }
+
         showReimbursements();
     </script>
 </html>

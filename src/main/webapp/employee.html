@@ -9,6 +9,7 @@
         <title>Employee</title>
     </head>
     <body>
+        <p style="color: red; text-align: right;" onclick="logout()">Logout</p>
         <h2 style="text-align: center;">Add New Reimbursements</h2>
         <h6 style="text-align: center;color:red">Note: All refunds dedicated towards the resurrection of our dark god can be reimbursed</h6>
         <div class="container">
@@ -83,6 +84,11 @@
             let parsedUrl = new URL(window.location.href);
             let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/addReimbursement`,settings);
             showReimbursements();
+        }
+
+        function logout(){
+            let parsedUrl = new URL(window.location.href);
+            window.location.replace(`http://${parsedUrl.host}/ReimbursementProject/`);
         }
         showReimbursements();
     </script>
