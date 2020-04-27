@@ -6,15 +6,30 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="mystyle.css">
+        <style>
+            #cute1, #cute2{
+                height: 120px;
+                width: 120px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
         <title>Manager</title>
     </head>
     <body>
         <p style="color: red; text-align: right;" onclick="logout()">Logout</p>
         <h2 style="text-align: center;">All Reimbursements</h2>
         <br>
-        <div class="container" style="text-align:center">
-            <button type="button" class="btn btn-secondary" onclick="showPendingReimbursements()">Pending Reimbursements</button>
-            <button type="button" class="btn btn-secondary" onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
+        <div class="container">
+            <div class="row">
+                <div class="col"><img id="cute1" src="https://cdn11.bigcommerce.com/s-nvi5ccsg4x/images/stencil/500x659/products/192/400/UT6622-Too-Cute-Cthulhu-1__21793.1583707117.jpg?c=1"></div>
+                <div class="col-6" style="text-align:center"> 
+                    <button type="button" class="btn btn-secondary" onclick="showPendingReimbursements()">Pending Reimbursements</button>
+                    <button type="button" class="btn btn-secondary" onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
+                </div>
+                <div class="col"><img id="cute1" src="https://cdn11.bigcommerce.com/s-nvi5ccsg4x/images/stencil/500x659/products/192/400/UT6622-Too-Cute-Cthulhu-1__21793.1583707117.jpg?c=1"></div>
+            </div>
         </div>
         <br>
         <table class="table table-sm table-dark">
