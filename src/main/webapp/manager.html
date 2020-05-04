@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="mystyle.css">
+        <style>
+            #cute1, #cute2{
+                height: 120px;
+                width: 120px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+        <title>Manager</title>
+    </head>
+    <body>
+        <p style="color: red; text-align: right;" onclick="logout()">Logout</p>
+        <h2 style="text-align: center;">All Reimbursements</h2>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col"><img id="cute1" src="https://cdn11.bigcommerce.com/s-nvi5ccsg4x/images/stencil/500x659/products/192/400/UT6622-Too-Cute-Cthulhu-1__21793.1583707117.jpg?c=1"></div>
+                <div class="col-6" style="text-align:center"> 
+                    <button type="button" class="btn btn-secondary" onclick="showPendingReimbursements()">Pending Reimbursements</button>
+                    <button type="button" class="btn btn-secondary" onclick="showNonPendingReimbursements()">Completed Reimbursements</button>
+                </div>
+                <div class="col"><img id="cute1" src="https://cdn11.bigcommerce.com/s-nvi5ccsg4x/images/stencil/500x659/products/192/400/UT6622-Too-Cute-Cthulhu-1__21793.1583707117.jpg?c=1"></div>
+            </div>
+        </div>
+        <br>
+        <table class="table table-sm table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Reimbursement ID</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Approve/Disapprove</th>
+                </tr>
+            </thead>
+            <tbody id="reimbursementTable">
+            </tbody>
+        </table>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+    </body>
+    <script>
+        async function showReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursements`);
+            let reimbursements = await httpResponse.json();
+            
+            tableBody = document.getElementById("reimbursementTable");
+            tableBody.innerHTML = "";
+
+            for(r of reimbursements){
+                if(r.status==="Pending"){
+                    reimbursementNode = document.createElement("tr");
+                    reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
+                    <td><button type="button" class="btn btn-success" id="${r.rid}approveBtn">Approve</button>
+                    <button type="button" class="btn btn-danger" id="${r.rid}denyBtn">Deny</button></td>`;
+                    tableBody.appendChild(reimbursementNode);
+                    $(`#${r.rid}approveBtn`).data(r);
+                    let a = $(`#${r.rid}approveBtn`).data();
+                    $(`#${r.rid}denyBtn`).data(r);
+                    let d = $(`#${r.rid}denyBtn`).data();
+                    document.getElementById(r.rid+"approveBtn").addEventListener("click",function(){approve(a)});
+                    document.getElementById(r.rid+"denyBtn").addEventListener("click",function(){deny(d)});
+                }else{
+                    reimbursementNode = document.createElement("tr");
+                    reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td><td></td>`;
+                    tableBody.appendChild(reimbursementNode);
+                }
+            }
+        }
+
+        async function showPendingReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewPendingReimbursements`);
+            let reimbursements = await httpResponse.json();
+            
+            tableBody = document.getElementById("reimbursementTable");
+            tableBody.innerHTML = "";
+
+            for(r of reimbursements){
+                reimbursementNode = document.createElement("tr");
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>
+                <td><button id="${r.rid}approveBtn" type="button" class="btn btn-success">Approve</button>
+                <button id="${r.rid}denyBtn" type="button" class="btn btn-danger">Deny</button></td>`;
+                tableBody.appendChild(reimbursementNode);
+                $(`#${r.rid}approveBtn`).data(r);
+                let a = $(`#${r.rid}approveBtn`).data();
+                $(`#${r.rid}denyBtn`).data(r);
+                let d = $(`#${r.rid}denyBtn`).data();
+                document.getElementById(r.rid+"approveBtn").addEventListener("click",function(){approve(a)});
+                document.getElementById(r.rid+"denyBtn").addEventListener("click",function(){deny(d)});
+            }
+        }
+
+        async function showNonPendingReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewNonPendingReimbursements`);
+            let reimbursements = await httpResponse.json();
+            
+            tableBody = document.getElementById("reimbursementTable");
+            tableBody.innerHTML = "";
+            for(r of reimbursements){
+                reimbursementNode = document.createElement("tr");
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td><td></td>`;
+                tableBody.appendChild(reimbursementNode);
+            }
+
+        }
+
+        async function approve(e){
+            let reimbursement = e;
+            reimbursement.status = "Approved";
+            settings = {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify(reimbursement)
+            }
+
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
+            showPendingReimbursements();
+        } 
+
+        async function deny(e){
+            let reimbursement = e;
+            reimbursement.status = "Denied";
+            settings = {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify(reimbursement)
+            }
+
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/updateReimbursement`,settings);
+            showPendingReimbursements();
+        } 
+
+        function logout(){
+            let parsedUrl = new URL(window.location.href);
+            window.location.replace(`http://${parsedUrl.host}/ReimbursementProject/`);
+        }
+
+        showReimbursements();
+    </script>
+</html>

@@ -1,0 +1,9 @@
+body{
+    background-color: black;
+    color: white;
+}
+table{
+    border-style: double;
+    border-color: greenyellow;
+    color:whitesmoke;
+}

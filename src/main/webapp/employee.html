@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="mystyle.css">
+        <title>Employee</title>
+        <style>
+            #cute1, #cute2{
+                height: 120px;
+                width: 120px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <p style="color: red; text-align: right;" onclick="logout()">Logout</p>
+        <h2 style="text-align: center;">Add New Reimbursements</h2>
+        <h6 style="text-align: center;color:red">Note: All refunds dedicated towards the resurrection of our dark god can be reimbursed</h6>
+       
+        <div class="container">
+            <div class="row">
+                <div class="col"><img id="cute1" src="https://cdn11.bigcommerce.com/s-nvi5ccsg4x/images/stencil/500x659/products/192/400/UT6622-Too-Cute-Cthulhu-1__21793.1583707117.jpg?c=1"></div>
+                <div class="col-6">
+                    <h4>Amount</h4>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                        </div>
+                        <input id="amountInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                    <h4>Description</h4>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">With textarea</span>
+                        </div>
+                        <textarea id="descriptionInput" class="form-control" aria-label="With textarea"></textarea>
+                    </div>
+                    <br>
+                    <button id="submitBtn" type="button" class="btn btn-primary" onclick="addReimbursement()">Submit</button>
+                </div>
+                <div class="col"><img id="cute1" src="https://cdn11.bigcommerce.com/s-nvi5ccsg4x/images/stencil/500x659/products/192/400/UT6622-Too-Cute-Cthulhu-1__21793.1583707117.jpg?c=1"></div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center;">All Your Reimbursements</h2>
+        <table class="table table-sm table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Reimbursement ID</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody id="reimbursementTable">
+            </tbody>
+        </table>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+    <script>
+        async function showReimbursements(){
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/viewReimbursementByEid`);
+            let reimbursements = await httpResponse.json();
+
+            tableBody = document.getElementById("reimbursementTable");
+            tableBody.innerHTML = "";
+            for(r of reimbursements){
+                reimbursementNode = document.createElement("tr");
+                reimbursementNode.innerHTML = `<td>${r.rid}</td><td>$${r.amount}</td><td>${r.description}</td><td>${r.status}</td>`;
+                tableBody.appendChild(reimbursementNode);
+            }
+        }
+
+        async function addReimbursement(){
+            let reimbursement ={
+                rid:0,
+                status:"Pending",
+                mid:0,
+                eid:0
+            }
+            reimbursement.amount = document.getElementById("amountInput").value;
+            reimbursement.description = document.getElementById("descriptionInput").value;
+
+            settings = {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify(reimbursement)
+            }
+
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/home/addReimbursement`,settings);
+            showReimbursements();
+        }
+
+        function logout(){
+            let parsedUrl = new URL(window.location.href);
+            window.location.replace(`http://${parsedUrl.host}/ReimbursementProject/`);
+        }
+        showReimbursements();
+    </script>
+</html>
